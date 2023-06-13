@@ -25,7 +25,6 @@ Put the downloaded model folder in \model. For example:\model\M2M100-ja-zh
 把下载好的模型放在/model文件夹下。例如：\model\M2M100-ja-zh
 
 
-Run srt_translator.py. If you don't know how to use python, you can use the released executable program on the right.
+Install requirements and run srt_translator.py. 
 
-运行srt_translator.py。如果你不会用python，可以下载右侧打包好的的可执行程序。
-
+安装依赖并运行srt_translator.py。
