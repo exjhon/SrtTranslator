@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from tkinter.ttk import Progressbar
+from tkinter.ttk import Progressbar, Checkbutton
 import os
 import re
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import torch
 from tqdm import tqdm
 import time
+import shutil
 
 # 设置默认的模型文件夹路径
 DEFAULT_MODEL_PATH = "./model/"
@@ -15,7 +16,7 @@ class SRTTranslatorApp:
     def __init__(self, root):
         self.root = root
         self.root.title("SRT翻译器")
-        self.root.geometry("200x290")
+        self.root.geometry("200x320")
 
         # 创建选择模型的下拉菜单
         self.model_label = tk.Label(root, text="选择模型：")
@@ -28,6 +29,11 @@ class SRTTranslatorApp:
         # 创建选择字幕文件的按钮
         self.select_files_button = tk.Button(root, text="选择字幕文件", command=self.select_files, width=20, height=3)
         self.select_files_button.pack(pady=10)
+        
+        # 创建备份模式的勾选选项
+        self.backup_mode = tk.BooleanVar()
+        self.backup_checkbox = Checkbutton(root, text="备份模式", variable=self.backup_mode)
+        self.backup_checkbox.pack()
 
         # 创建翻译按钮
         self.translate_button = tk.Button(root, text="翻译", command=self.translate, width=20, height=3)
@@ -71,7 +77,14 @@ class SRTTranslatorApp:
 
         # 遍历每个字幕文件进行翻译
         for file in self.files:
-            output_file = os.path.splitext(file)[0] + "_cn.srt"
+            if self.backup_mode.get():
+                # 备份模式，备份原字幕文件为xx_.bak.srt
+                backup_file = os.path.splitext(file)[0] + "_bak.srt"
+                shutil.copy(file, backup_file)
+                output_file = file
+            else:
+                # 非备份模式，生成翻译后的文件xx_translated.srt
+                output_file = os.path.splitext(file)[0] + "_translated.srt"
             self.progress.pack()
             self.percentage_label.pack()
             self.time_label.pack()
@@ -92,7 +105,7 @@ class SRTTranslatorApp:
                     translated_lines.append(line)
                     continue
 
-                # 翻译日文文本行
+                # 翻译原文文本行
                 input_text = tokenizer.encode(line, return_tensors="pt").to(device)
                 translated_text = model.generate(input_text)
                 translated_text = tokenizer.decode(translated_text[0], skip_special_tokens=True)
