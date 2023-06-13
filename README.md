@@ -9,7 +9,7 @@ A simple offline *.srt translator using transformers models that helps you to tr
 
 自动排除序号，时间戳和空行
 
-保存为同目录下的*_cn.srt
+保存为同目录下的*_translated.srt，或者勾选备份模式，保存为原文件名并备份原文件为*_bak.srt
 
 以进度条显示翻译进度
 
