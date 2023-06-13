@@ -15,7 +15,7 @@ class SRTTranslatorApp:
     def __init__(self, root):
         self.root = root
         self.root.title("SRT翻译器")
-        self.root.geometry("200x250")
+        self.root.geometry("200x280")
 
         # 创建选择模型的下拉菜单
         self.model_label = tk.Label(root, text="选择模型：")
