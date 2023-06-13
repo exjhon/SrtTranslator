@@ -1,5 +1,6 @@
 # SrtTranslator
 A simple offline *.srt translator using transformers models that helps you to translate subtitles.
+简单的离线字幕翻译器，使用transformers模型，助你翻译字幕。
 # How to Use it|如何使用
 Download the translation model that you need from here:https://huggingface.co/models?pipeline_tag=translation
 
